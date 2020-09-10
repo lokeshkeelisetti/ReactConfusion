@@ -1,7 +1,6 @@
 import React from 'react';
-import { Card, CardImg,CardTitle } from 'reactstrap';
-
-
+import { Card, CardImg,CardTitle,Breadcrumb,BreadcrumbItem} from 'reactstrap';
+import {Link } from 'react-router-dom'; 
 
     function RenderDish({dish}){
         if(dish!=null){
@@ -23,12 +22,8 @@ import { Card, CardImg,CardTitle } from 'reactstrap';
         }
     }
 
-    function RenderComments({dish}){
-        var comments=null;
-        var inter=null;
-        if(dish!=null){
-            comments=dish.comments;
-            inter=comments.map(onecomment=>{
+    function RenderComments({comments}){
+            const inter=comments.map((onecomment)=>{
                 return(
                     <div key={onecomment.id}>
                         <p>{onecomment.comment}</p>
@@ -36,7 +31,6 @@ import { Card, CardImg,CardTitle } from 'reactstrap';
                     </div>
                 )
             });
-        }
         
         if(comments!=null){
             return(
@@ -60,6 +54,17 @@ import { Card, CardImg,CardTitle } from 'reactstrap';
     const Dishdetail=(props)=>{
         const selectedDish= props.dish;
         return(
+            <>
+            <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to='/menu'>Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{props.dish.name}</h3>
+                        <hr />
+                    </div>
+                </div>
             <div className="row">
                 <div className="col-12 col-md-5 m-1">
                     <Card>
@@ -67,9 +72,10 @@ import { Card, CardImg,CardTitle } from 'reactstrap';
                     </Card>
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderComments dish={props.dish}/>
+                    <RenderComments comments={props.comments}/>
                 </div>
             </div>
+            </>
         );
     }
 
