@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardImgOverlay,CardText,CardBody,CardTitle } from 'reactstrap';
+import { Card, CardImg,CardTitle } from 'reactstrap';
 
 class Dishdetail extends Component{
-    constructor(props){
-        super(props);
-    }
 
     renderDish(dish){
         if(dish!=null){
@@ -26,15 +23,21 @@ class Dishdetail extends Component{
         }
     }
 
-    renderComments(comments){
-        const inter=comments.map(onecomment=>{
-            return(
-                <div key={onecomment.id}>
-                    <li>{onecomment.comment}</li>
-                    <li>--{onecomment.author}, {new Date(onecomment.date).toDateString()}</li>
-                </div>
-            )
-        });
+    renderComments(dish){
+        var comments=null;
+        var inter=null;
+        if(dish!=null){
+            comments=dish.comments;
+            inter=comments.map(onecomment=>{
+                return(
+                    <div key={onecomment.id}>
+                        <p>{onecomment.comment}</p>
+                        <p>--{onecomment.author}, {new Intl.DateTimeFormat('en-US',{year:'numeric',month:'short',day:'2-digit'}).format(new Date(Date.parse(onecomment.date)))}</p>
+                    </div>
+                )
+            });
+        }
+        
         if(comments!=null){
             return(
                 <div>
@@ -56,6 +59,7 @@ class Dishdetail extends Component{
 
     render(){
         const selectedDish= this.props.dish;
+        console.log(selectedDish);
         return(
             <div className="row">
                 <div className="col-12 col-md-5 m-1">
@@ -64,7 +68,7 @@ class Dishdetail extends Component{
                     </Card>
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    {this.renderComments(selectedDish.comments)}
+                    {this.renderComments(selectedDish)}
                 </div>
             </div>
         );
