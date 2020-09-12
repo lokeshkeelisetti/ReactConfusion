@@ -4,6 +4,7 @@ import { Card, CardImg,CardTitle,Breadcrumb,BreadcrumbItem,Modal,ModalHeader,Mod
 import {Link } from 'react-router-dom'; 
 import {Control,LocalForm,Errors} from 'react-redux-form';
 import {Loading} from './LoadingComponent';
+import {baseUrl} from '../shared/baseUrl';
 
 const required = (val) =>val && val.length;
 const maxLength =(len) => (val) => !(val) || (val.length<=len);
@@ -49,7 +50,7 @@ class CommentForm extends Component{
                             <option>5</option>
                         </Control.select>
                         <Label htmlFor="yourname">Your Name</Label>
-                        <Control.text model=".yourname" name="yourname" id="yourname"
+                        <Control.text model=".author" name="yourname" id="yourname"
                             className="form-control" placeholder="Your Name" validators={{required,maxLength:maxLength(15),minLength:minLength(3)}}/>
                             <Errors
                                 className="text-danger"
@@ -77,7 +78,7 @@ class CommentForm extends Component{
         if(dish!=null){
             return(
                 <div>
-                    <CardImg width="100%" src={dish.image} alt={dish.name}/>
+                    <CardImg width="100%" src={baseUrl+dish.image} alt={dish.name}/>
 
                         <CardTitle>{dish.name}</CardTitle>
                         <p>{dish.description}</p>
