@@ -5,6 +5,8 @@ import {Link } from 'react-router-dom';
 import {Control,LocalForm,Errors} from 'react-redux-form';
 import {Loading} from './LoadingComponent';
 import {baseUrl} from '../shared/baseUrl';
+import {FadeTransform,Fade,Stagger} from 'react-animation-components';
+
 
 const required = (val) =>val && val.length;
 const maxLength =(len) => (val) => !(val) || (val.length<=len);
@@ -78,10 +80,15 @@ class CommentForm extends Component{
         if(dish!=null){
             return(
                 <div>
-                    <CardImg width="100%" src={baseUrl+dish.image} alt={dish.name}/>
+                    <FadeTransform in 
+                        transformProps ={{
+                        exitTransform:'scale(0.5) translateY(-50%)'}}
+                        >
+                        <CardImg width="100%" src={baseUrl+dish.image} alt={dish.name}/>
 
-                        <CardTitle>{dish.name}</CardTitle>
-                        <p>{dish.description}</p>
+                            <CardTitle>{dish.name}</CardTitle>
+                            <p>{dish.description}</p>
+                    </FadeTransform>
                 </div>
             );
         }
@@ -97,10 +104,12 @@ class CommentForm extends Component{
     function RenderComments({comments,postComment,dishId}){
             const inter=comments.map((onecomment)=>{
                 return(
-                    <div key={onecomment.id}>
-                        <p>{onecomment.comment}</p>
-                        <p>--{onecomment.author}, {new Intl.DateTimeFormat('en-US',{year:'numeric',month:'short',day:'2-digit'}).format(new Date(Date.parse(onecomment.date)))}</p>
-                    </div>
+                    <Fade in>
+                        <li key={onecomment.id}>
+                            <p>{onecomment.comment}</p>
+                            <p>--{onecomment.author}, {new Intl.DateTimeFormat('en-US',{year:'numeric',month:'short',day:'2-digit'}).format(new Date(Date.parse(onecomment.date)))}</p>
+                        </li>
+                    </Fade>
                 )
             });
         
@@ -108,10 +117,12 @@ class CommentForm extends Component{
             return(
                 <div>
                     <h4>Comments</h4>
-                    <div className="list-unstyled">
-                        {inter}
+                    <ul className="list-unstyled">
+                        <Stagger in>
+                            {inter}
+                        </Stagger>
                         <CommentForm dishId={dishId} postComment={postComment}/>
-                    </div>
+                    </ul>
                 </div>
             );
         }
