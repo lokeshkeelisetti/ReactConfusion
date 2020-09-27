@@ -1,3 +1,7 @@
+This project is based on a course in Coursera 'Front-end development with React' by Jogesh.K.Muppala 
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
